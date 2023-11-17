@@ -4,7 +4,7 @@ from utils import models, preprocess
 data_preprocess = preprocess.Preprocess("data/CR")
 
 # preprocess the dataset to get train and test data
-data_preprocess.preprocess_data('custrev.pos', 'custrev.neg')
+# data_preprocess.preprocess_data('custrev.pos', 'custrev.neg')
 
 # load the train data
 train_data = data_preprocess.load_data('train_data')

@@ -98,7 +98,7 @@ class Evaluate:
             # Convert predicted labels to integers
             predictions = [int(label) for label in predicted_labels]
         else:
-            labels, predictions = self.evaluate_language_model(model_name)
+            predictions, labels = self.evaluate_language_model(model_name)
         print(f"Evaluating {model_name} performance...")
         accuracy = accuracy_score(labels, predictions)
         f1_macro = f1_score(labels, predictions, average='macro')
