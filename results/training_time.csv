@@ -1,0 +1,6 @@
+Model,Training_time
+FastText,0.13
+BERT,1623.841
+DistilBERT,788.866
+RoBERTa,1675.559
+XLNet,2995.146
