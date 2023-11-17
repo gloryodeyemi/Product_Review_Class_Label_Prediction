@@ -2,8 +2,6 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, precisio
 from torch.utils.data import DataLoader, TensorDataset
 import fasttext
 import torch
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from transformers import BertTokenizer, BertForSequenceClassification, DistilBertTokenizer, \
     DistilBertForSequenceClassification, XLNetTokenizer, XLNetForSequenceClassification, RobertaTokenizer, \
@@ -64,7 +62,7 @@ class Evaluate:
         model, tokenizer = self.load_saved_model(model_name)
         print(f"{model_name} model tokenizing and encoding...")
         test_inputs = tokenizer(list(self.test_data['sentence']), padding=True, truncation=True, return_tensors="pt",
-                                max_length=512)
+                                max_length=128)
         test_labels = torch.tensor(self.test_data['label'].values)
         test_dataset = TensorDataset(test_inputs['input_ids'], test_inputs['attention_mask'], test_labels)
         test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False)
@@ -75,7 +73,8 @@ class Evaluate:
         test_dataloader, model = self.tokenize_and_encode(model_name)
         print(f"{model_name} model making predictions...")
 
-        model.eval()
+        model.eval()  # Uncommented for setting the model to evaluation mode
+
         all_preds = []
         all_labels = []
 
@@ -84,12 +83,13 @@ class Evaluate:
                 inputs, attention_mask, labels = batch
                 outputs = model(inputs, attention_mask=attention_mask)
                 logits = outputs.logits
-                preds = torch.argmax(logits, dim=1).tolist()
+                probabilities = torch.softmax(logits, dim=1)  # Applying softmax to obtain class probabilities
+                preds = torch.argmax(probabilities, dim=1).tolist()
                 all_preds.extend(preds)
                 all_labels.extend(labels.tolist())
 
         print("Prediction done!\n")
-        return all_preds, all_labels
+        return all_labels, all_preds
 
     def evaluate_performance(self, model_name):
         if model_name == 'FastText':
@@ -98,7 +98,7 @@ class Evaluate:
             # Convert predicted labels to integers
             predictions = [int(label) for label in predicted_labels]
         else:
-            predictions, labels = self.evaluate_language_model(model_name)
+            labels, predictions = self.evaluate_language_model(model_name)
         print(f"Evaluating {model_name} performance...")
         accuracy = accuracy_score(labels, predictions)
         f1_macro = f1_score(labels, predictions, average='macro')

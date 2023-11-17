@@ -13,6 +13,8 @@ class Models:
         self.save_path = save_path
         self.train_data = train_data
         self.result_path = result_path
+        self.model = None
+        self.tokenizer = None
 
     def load_model(self, model_name):
         """
@@ -20,25 +22,23 @@ class Models:
         :param model_name: The name of the model.
         :return: The model and tokenizer.
         """
-        model = None
-        tokenizer = None
         model_name = model_name.lower()
 
         if model_name == 'bert':
-            model = BertForSequenceClassification.from_pretrained('bert-base-uncased')
-            tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', num_labels=2)
+            self.model = BertForSequenceClassification.from_pretrained('bert-base-uncased')
+            self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', num_labels=2)
         elif model_name == 'distilbert':
-            model = DistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased')
-            tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased', num_labels=2)
+            self.model = DistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased')
+            self.tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased', num_labels=2)
         elif model_name == 'xlnet':
-            model = XLNetForSequenceClassification.from_pretrained('xlnet-base-cased')
-            tokenizer = XLNetTokenizer.from_pretrained('xlnet-base-cased', num_labels=2)
+            self.model = XLNetForSequenceClassification.from_pretrained('xlnet-base-cased')
+            self.tokenizer = XLNetTokenizer.from_pretrained('xlnet-base-cased', num_labels=2)
         elif model_name == 'roberta':
-            model = RobertaForSequenceClassification.from_pretrained('roberta-base')
-            tokenizer = RobertaTokenizer.from_pretrained('roberta-base', num_labels=2)
+            self.model = RobertaForSequenceClassification.from_pretrained('roberta-base')
+            self.tokenizer = RobertaTokenizer.from_pretrained('roberta-base', num_labels=2)
         else:
             print("Invalid model name!")
-        return model, tokenizer
+        return self.model, self.tokenizer
 
     def fine_tune_model(self, model_name):
         """
@@ -52,7 +52,7 @@ class Models:
 
         # tokenize and encode the sentences
         train_inputs = tokenizer(list(self.train_data['sentence']), padding=True, truncation=True,
-                                 return_tensors="pt", max_length=512)
+                                 return_tensors="pt", max_length=128)
         train_labels = torch.tensor(self.train_data['label'].values)
 
         # create DataLoader for fine-tuning
