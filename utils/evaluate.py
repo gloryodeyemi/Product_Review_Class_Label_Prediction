@@ -62,7 +62,7 @@ class Evaluate:
         model, tokenizer = self.load_saved_model(model_name)
         print(f"{model_name} model tokenizing and encoding...")
         test_inputs = tokenizer(list(self.test_data['sentence']), padding=True, truncation=True, return_tensors="pt",
-                                max_length=128)
+                                max_length=512)
         test_labels = torch.tensor(self.test_data['label'].values)
         test_dataset = TensorDataset(test_inputs['input_ids'], test_inputs['attention_mask'], test_labels)
         test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False)

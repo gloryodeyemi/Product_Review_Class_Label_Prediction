@@ -52,7 +52,7 @@ class Models:
 
         # tokenize and encode the sentences
         train_inputs = tokenizer(list(self.train_data['sentence']), padding=True, truncation=True,
-                                 return_tensors="pt", max_length=128)
+                                 return_tensors="pt", max_length=512)
         train_labels = torch.tensor(self.train_data['label'].values)
 
         # create DataLoader for fine-tuning
