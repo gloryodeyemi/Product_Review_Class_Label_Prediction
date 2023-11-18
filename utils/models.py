@@ -60,7 +60,7 @@ class Models:
         train_dataloader = DataLoader(train_dataset, batch_size=8, shuffle=True)
 
         # define optimizer and loss function
-        optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
+        optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
         criterion = torch.nn.CrossEntropyLoss()
 
         # fine-tune the language model

@@ -2,5 +2,5 @@ Model,Training_time
 FastText,0.131
 BERT,1599.778
 DistilBERT,793.414
-RoBERTa,1698.241
-XLNet,3244.397
+RoBERTa,1712.395
+XLNet,3068.67
