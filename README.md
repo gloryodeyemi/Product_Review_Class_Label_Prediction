@@ -1,6 +1,6 @@
 # 🙂 Sentiment Classification on Product Reviews
 
-Development and comparison of five NLP models - FastText, BERT, DistilBERT, RoBERTa, and XLNet — to classify product reviews as positive or negative, using pre-trained transformer architectures and fine-tuning techniques.
+Development and comparison of five NLP models, FastText, BERT, DistilBERT, RoBERTa, and XLNet to classify product reviews as positive or negative, using pre-trained transformer architectures and fine-tuning techniques.
 
 ## 📚 Dataset
 The project uses the Customer Review (CR) Dataset from the [SentEval benchmark](https://github.com/facebookresearch/SentEval), commonly used for sentiment classification tasks.
